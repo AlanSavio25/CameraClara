@@ -35,19 +35,21 @@ while True:
 
     for (x, y, w, h) in faces:
         area = (w)*(h)
+        num_near_faces = len([x for (x,y,w,h) in faces if w*h > 7000])
+        arr.append([x for (x,y,w,h) in faces if w*h > 7000])
         if area>7000:
             #arr.append(area)
             #print(area)
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
             cv2.putText(frame, str(area), (x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1)
+            time_observed += (len(arr) * time_for_one_frame)
+
         else:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 1)
             cv2.putText(frame, str(area), (x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1)
 
-        num_near_faces = len([x for (x,y,w,h) in faces if w*h > 7000])
-        arr.append([x for (x,y,w,h) in faces if w*h > 7000])
-        time_observed += (len(arr) * time_for_one_frame)
-        cv2.putText(frame, "Total time spent on this exhibit: "  + str(time_observed) ,(0, 450), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1)
+
+        cv2.putText(frame, "Total time spent on this exhibit: "  + str(time_observed),(0, 450), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1)
 
 
         if num_near_faces == 1:
